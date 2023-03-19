@@ -1,0 +1,2103 @@
+openapi: 3.0.3
+info:
+  title: subscription configuration
+  version: v1.0
+#servers:
+#  - url: /subscriptions-api
+#  - url: /
+paths:
+  /plan-frequencies/{id}:
+    get:
+      tags:
+        - PlanFrequencies
+      summary: Get Frequency by Id
+      operationId: getPlanFrequency
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlanFrequencyDetailDto'
+        '400':
+          $ref: '#/components/responses/BusinessError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/TechnicalError'
+    put:
+      tags:
+        - PlanFrequencies
+      summary: Update a plan frequency
+      operationId: updatePlanFrequency
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlanFrequencyUpdateDto'
+        required: true
+      responses:
+        '204':
+          $ref: '#/components/responses/UpdatedResponse'
+        '400':
+          $ref: '#/components/responses/BusinessError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/TechnicalError'
+  /plan-frequencies:
+    post:
+      tags:
+        - PlanFrequencies
+      summary: Add a plan frequency
+      operationId: createPlanFrequency
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlanFrequencyCreateDto'
+        required: true
+      responses:
+        '201':
+          $ref: '#/components/responses/CreatedResponse'
+        '400':
+          $ref: '#/components/responses/BusinessError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/TechnicalError'
+    get:
+      tags:
+        - PlanFrequencies
+      summary: get all plan frequencies by plan id.
+      operationId: getPlanFrequenciesByPlanId
+      parameters:
+        - name: planId
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: pageable
+          required: false
+          in: query
+          schema:
+            $ref: '#/components/schemas/PageableDto'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlanFrequenciesDto'
+        '400':
+          $ref: '#/components/responses/BusinessError'
+        '500':
+          $ref: '#/components/responses/TechnicalError'
+  #organizations path section
+  /organizations:
+    get:
+      tags:
+        - Organizations
+      summary: Get Organizations list
+      operationId: getOrganizations
+      parameters:
+        - name: searchKey
+          required: false
+          in: query
+          schema:
+            type: string
+        - name: pageable
+          required: false
+          in: query
+          schema:
+            $ref: '#/components/schemas/PageableDto'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationsDto'
+        '400':
+          $ref: '#/components/responses/BusinessError'
+        '500':
+          $ref: '#/components/responses/TechnicalError'
+    post:
+      tags:
+        - Organizations
+      summary: Create Organization
+      operationId: createOrganization
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationCreateDto'
+      responses:
+        '201':
+          $ref: '#/components/responses/CreatedResponse'
+        '400':
+          $ref: '#/components/responses/BusinessError'
+        '500':
+          $ref: '#/components/responses/TechnicalError'
+  /organizations/{id}:
+    put:
+      tags:
+        - Organizations
+      summary: Update Organization
+      operationId: updateOrganization
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationUpdateDto'
+      responses:
+        '204':
+          $ref: '#/components/responses/UpdatedResponse'
+        '400':
+          $ref: '#/components/responses/BusinessError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/TechnicalError'
+    get:
+      tags:
+        - Organizations
+      summary: Get an organization by Organization Id
+      operationId: getOrganization
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationDetailDto'
+        '400':
+          $ref: '#/components/responses/BusinessError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/TechnicalError'
+
+  # subscription path section
+  /subscriptions:
+    get:
+      tags:
+        - Subscriptions
+      summary: Get Subscriptions Page by filter and searchKey
+      description: Get subscriptions Page
+      operationId: getSubscriptions
+      parameters:
+        - name: pageable
+          required: false
+          in: query
+          schema:
+            $ref: '#/components/schemas/PageableDto'
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BusinessError'
+        '500':
+          $ref: '#/components/responses/TechnicalError'
+
+  #Site path section
+  /sites:
+    get:
+      tags:
+        - Sites
+      summary: Get Sites list
+      operationId: getSites
+      parameters:
+        - name: orgId
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: searchKey
+          required: false
+          in: query
+          schema:
+            type: string
+        - name: pageable
+          required: false
+          in: query
+          schema:
+            $ref: '#/components/schemas/PageableDto'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SitesDto'
+        '400':
+          $ref: '#/components/responses/BusinessError'
+        '500':
+          $ref: '#/components/responses/TechnicalError'
+
+  #Cancellation policy path section
+  /cancellation-policies:
+    get:
+      tags:
+        - Cancellation Policies
+      summary: Get Cancellation Policies list
+      operationId: getCancellationPolicies
+      parameters:
+        - name: searchKey
+          required: false
+          in: query
+          schema:
+            type: string
+        - name: pageable
+          required: false
+          in: query
+          schema:
+            $ref: '#/components/schemas/PageableDto'
+        - name: status
+          required: false
+          in: query
+          schema:
+            $ref: '#/components/schemas/StatusDto'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CancellationPoliciesDto'
+        '400':
+          $ref: '#/components/responses/BusinessError'
+        '500':
+          $ref: '#/components/responses/TechnicalError'
+    post:
+      tags:
+        - Cancellation Policies
+      summary: Create a cancellation
+      operationId: createCancellation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CancellationPolicyCreateDto'
+        required: true
+      responses:
+        '201':
+          $ref: '#/components/responses/CreatedResponse'
+        '400':
+          $ref: '#/components/responses/BusinessError'
+        '500':
+          $ref: '#/components/responses/TechnicalError'
+  /cancellation-policies/{id}:
+    put:
+      tags:
+        - Cancellation Policies
+      summary: Update a cancellation by Id
+      operationId: updateCancellation
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CancellationPolicyUpdateDto'
+      responses:
+        '204':
+          description: Existing record is updated
+        '400':
+          $ref: '#/components/responses/BusinessError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/TechnicalError'
+    get:
+      tags:
+        - Cancellation Policies
+      summary: Get a cancellations by Id
+      operationId: getCancellation
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CancellationPolicyDetailDto'
+        '400':
+          $ref: '#/components/responses/BusinessError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/TechnicalError'
+
+
+  #Site path section
+  /sites/{id}:
+    get:
+      tags:
+        - Sites
+      summary: Get site details by id.
+      operationId: getSiteDetail
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SiteDetailDto'
+        '400':
+          $ref: '#/components/responses/BusinessError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/TechnicalError'
+
+  # subscription-cancellations path section
+  /subscription-cancellations:
+    get:
+      tags:
+        - Subscription Cancellations
+      summary: Get Subscription Cancellations list
+      operationId: getSubscriptionCancellations
+      parameters:
+        - name: pageable
+          required: false
+          in: query
+          schema:
+            $ref: '#/components/schemas/PageableDto'
+        - name: cancellationFilter
+          required: false
+          in: query
+          schema:
+            $ref: '#/components/schemas/SubscriptionCancellationFilterDto'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionCancellationsDto'
+        '400':
+          $ref: '#/components/responses/BusinessError'
+        '500':
+          $ref: '#/components/responses/TechnicalError'
+    post:
+      tags:
+        - Subscription Cancellations
+      summary: Create Subscription Cancellation
+      operationId: createSubscriptionCancellation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubscriptionCancellationDto'
+      responses:
+        '201':
+          $ref: '#/components/responses/SubscriptionCancellationResponse'
+        '400':
+          $ref: '#/components/responses/BusinessError'
+        '500':
+          $ref: '#/components/responses/TechnicalError'
+  /subscription-cancellations/{id}:
+    get:
+      tags:
+        - Subscription Cancellations
+      summary: Get a Subscription Cancellation
+      operationId: getSubscriptionCancellation
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionCancellationDetailDto'
+        '400':
+          $ref: '#/components/responses/BusinessError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/TechnicalError'
+    put:
+      tags:
+        - Subscription Cancellations
+      summary: Update Subscription Cancellation
+      operationId: updateSubscriptionCancellation
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubscriptionCancellationDto'
+      responses:
+        '200':
+          $ref: '#/components/responses/SubscriptionCancellationResponse'
+
+  #Plan path section
+  /plans/{id}:
+    get:
+      tags:
+        - Plans
+      summary: Get Plan Detail
+      operationId: getPlanDetail
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlanDetailDto'
+        '400':
+          $ref: '#/components/responses/BusinessError'
+        '404':
+          description: No Plan is found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+        '500':
+          $ref: '#/components/responses/TechnicalError'
+    put:
+      tags:
+        - Plans
+      summary: Update Plan Detail
+      operationId: updatePlan
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlanUpdateDto'
+      responses:
+        '204':
+          description: Update success
+        '400':
+          $ref: '#/components/responses/BusinessError'
+        '500':
+          $ref: '#/components/responses/TechnicalError'
+  /plans/{id}/has-any-frequency:
+    get:
+      tags:
+        - Plans
+      summary: Check if this Plan has no frequency and recommended frequency
+      operationId: hasAnyPlanFrequencyOrRecommendedPlanFrequency
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: UUID
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: boolean
+        '400':
+          $ref: '#/components/responses/BusinessError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/TechnicalError'
+  /plans:
+    get:
+      tags:
+        - Plans
+      summary: get list of Plans by Plan filter( Org, site, chanel, chanel-locale, product, status) and search key.
+      operationId: getPlans
+      parameters:
+        - name: filter
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/PlanFilterDto"
+        - name: searchKey
+          required: false
+          in: query
+          schema:
+            type: string
+        - name: pageable
+          required: false
+          in: query
+          schema:
+            $ref: '#/components/schemas/PageableDto'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlansDto'
+        '400':
+          $ref: '#/components/responses/BusinessError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/TechnicalError'
+    post:
+      tags:
+        - Plans
+      summary: Create a plan
+      operationId: createPlan
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlanCreateDto'
+        required: true
+      responses:
+        '201':
+          $ref: '#/components/responses/CreatedResponse'
+        '400':
+          $ref: '#/components/responses/BusinessError'
+        '500':
+          $ref: '#/components/responses/TechnicalError'
+
+  # Channel locales path section
+  /channel-locales:
+    get:
+      tags:
+        - Channel Locales
+      summary: Get channel locales list
+      operationId: getChannelLocales
+      parameters:
+        - name: channelId
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: pageable
+          required: false
+          in: query
+          schema:
+            $ref: '#/components/schemas/PageableDto'
+        - name: searchKey
+          required: false
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChannelLocalesDto'
+        '400':
+          $ref: '#/components/responses/BusinessError'
+        '500':
+          $ref: '#/components/responses/TechnicalError'
+  /channel-locales/{id}:
+    get:
+      tags:
+        - Channel Locales
+      summary: Get Channel locale detail
+      operationId: getChannelLocale
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChannelLocaleDetailDto'
+        '400':
+          $ref: '#/components/responses/BusinessError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/TechnicalError'
+
+  # Skip policy path section
+  /skip-policies:
+    post:
+      tags:
+        - SkipPolicies
+      summary: Create a SkipPolicy
+      operationId: createSkipPolicy
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SkipPolicyCreateDto'
+        required: true
+      responses:
+        '201':
+          $ref: '#/components/responses/CreatedResponse'
+        '400':
+          $ref: '#/components/responses/BusinessError'
+        '500':
+          $ref: '#/components/responses/TechnicalError'
+    get:
+      tags:
+        - SkipPolicies
+      summary: Get Skip Policies list
+      operationId: getSkipPolicies
+      parameters:
+        - name: searchKey
+          required: false
+          in: query
+          schema:
+            type: string
+        - name: status
+          required: false
+          in: query
+          schema:
+            $ref: '#/components/schemas/StatusDto'
+        - name: pageable
+          required: false
+          in: query
+          schema:
+            $ref: '#/components/schemas/PageableDto'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SkipPoliciesDto'
+        '400':
+          $ref: '#/components/responses/BusinessError'
+        '500':
+          $ref: '#/components/responses/TechnicalError'
+  /skip-policies/{id}:
+    get:
+      tags:
+        - SkipPolicies
+      summary: Get a skip policy details
+      operationId: getSkipPolicyDetail
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SkipPolicyDetailDto'
+        '400':
+          $ref: '#/components/responses/BusinessError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/TechnicalError'
+    put:
+      tags:
+        - SkipPolicies
+      summary: Update a skip policy
+      operationId: updateSkipPolicy
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SkipPolicyCreateDto'
+        required: true
+      responses:
+        '204':
+          description: Updated
+        '400':
+          $ref: '#/components/responses/BusinessError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/TechnicalError'
+  /channels:
+    get:
+      tags:
+        - Channels
+      summary: Get channels list
+      operationId: getChannels
+      parameters:
+        - name: siteId
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: pageable
+          required: false
+          in: query
+          schema:
+            $ref: '#/components/schemas/PageableDto'
+        - name: searchKey
+          required: false
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChannelsDto'
+        '400':
+          $ref: '#/components/responses/BusinessError'
+        '500':
+          $ref: '#/components/responses/TechnicalError'
+  /channels/{id}:
+    get:
+      tags:
+        - Channels
+      summary: Get a channel details
+      operationId: getChannelDetail
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChannelDetailDto'
+        '400':
+          $ref: '#/components/responses/BusinessError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/TechnicalError'
+
+  #Allocation type path section
+  /allocation-types:
+    get:
+      tags:
+        - AllocationTypes
+      summary: get all allocation types.
+      operationId: getAllocationTypes
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AllocationTypeDto'
+        '400':
+          $ref: '#/components/responses/BusinessError'
+        '500':
+          $ref: '#/components/responses/TechnicalError'
+  # Product path section
+  /products:
+    post:
+      tags:
+        - Products
+      summary: Create product
+      operationId: createProduct
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductCreateDto'
+        required: true
+      responses:
+        '201':
+          $ref: '#/components/responses/CreatedResponse'
+        '400':
+          $ref: '#/components/responses/BusinessError'
+        '500':
+          $ref: '#/components/responses/TechnicalError'
+    get:
+      tags:
+        - Products
+      summary: Get Products Page
+      description: Get Products Page
+      operationId: getProducts
+      parameters:
+        - name: searchKey
+          required: false
+          in: query
+          schema:
+            type: string
+        - name: pageable
+          required: false
+          in: query
+          schema:
+            $ref: '#/components/schemas/PageableDto'
+        - name: filter
+          required: false
+          in: query
+          schema:
+            $ref: '#/components/schemas/ProductFilterDto'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductsDto'
+        '400':
+          $ref: '#/components/responses/BusinessError'
+        '500':
+          $ref: '#/components/responses/TechnicalError'
+    put:
+      tags:
+        - Products
+      summary: Update product
+      operationId: updateProduct
+      parameters:
+        - name: targetProductErpId
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: oldChannelLocaleErpId
+          in: query
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductUpdateDto'
+        required: true
+      responses:
+        '204':
+          $ref: '#/components/responses/UpdatedResponse'
+        '400':
+          $ref: '#/components/responses/BusinessError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/TechnicalError'
+  /products/{id}:
+    get:
+      tags:
+        - Products
+      summary: Get an Product by Product Id
+      operationId: getProduct
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDetailDto'
+        '400':
+          $ref: '#/components/responses/BusinessError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/TechnicalError'
+
+  /plan-accesses:
+    post:
+      tags:
+        - PlanAccess
+      summary: Create Plan Access
+      operationId: createPlanAccess
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlanAccessCreateDto'
+      responses:
+        '201':
+          $ref: '#/components/responses/CreatedResponse'
+        '400':
+          $ref: '#/components/responses/BusinessError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/TechnicalError'
+    get:
+      tags:
+        - PlanAccess
+      summary: get all plan access by plan id.
+      operationId: getPlanAccessesByPlanId
+      parameters:
+        - name: planId
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: pageable
+          required: false
+          in: query
+          schema:
+            $ref: '#/components/schemas/PageableDto'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlanAccessesDto'
+        '400':
+          $ref: '#/components/responses/BusinessError'
+        '500':
+          $ref: '#/components/responses/TechnicalError'
+  /plan-accesses/{id}:
+    put:
+      tags:
+        - PlanAccess
+      summary: Update Plan Access
+      operationId: updatePlanAccess
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlanAccessUpdateDto'
+      responses:
+        '204':
+          $ref: '#/components/responses/UpdatedResponse'
+        '400':
+          $ref: '#/components/responses/BusinessError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/TechnicalError'
+    get:
+      tags:
+        - PlanAccess
+      summary: Get Plan Access Details
+      operationId: getPlanAccessDetail
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlanAccessDetailDto'
+        '400':
+          $ref: '#/components/responses/BusinessError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/TechnicalError'
+components:
+  schemas:
+
+    #Plan schemas
+    PlanFilterDto:
+      type: object
+      properties:
+        organizationId:
+          type: string
+          format: uuid
+        siteId:
+          type: string
+          format: uuid
+        chanelId:
+          type: string
+          format: uuid
+        chanelLocaleId:
+          type: string
+          format: uuid
+        productId:
+          type: string
+          format: uuid
+        status:
+          $ref: '#/components/schemas/StatusDto'
+    PlansDto:
+      type: object
+      properties:
+        plans:
+          type: array
+          default: [ ]
+          items:
+            $ref: '#/components/schemas/PlanViewDto'
+        total:
+          type: integer
+          format: int64
+          default: 0
+    PlanViewDto:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        productName:
+          type: string
+        chanelLocaleName:
+          type: string
+        allocationType:
+          type: string
+        chargeOnly:
+          type: boolean
+        triggerDay:
+          type: string
+        status:
+          type: string
+    PlanDto:
+      type: object
+      properties:
+        productId:
+          type: string
+          format: uuid
+        description:
+          type: string
+        name:
+          type: string
+          minLength: 1
+          maxLength: 128
+        allocationType:
+          type: string
+        triggerDay:
+          type: integer
+          minimum: 1
+          maximum: 31
+        delayPlanStartBy:
+          type: integer
+          minimum: 0
+        minDaysBetweenOrders:
+          type: integer
+          minimum: 0
+        chargeOnly:
+          type: boolean
+        status:
+          $ref: '#/components/schemas/StatusDto'
+    PlanCreateDto:
+      type: object
+      properties:
+        productErpId:
+          type: string
+        channelLocaleErpId:
+          type: string
+      allOf:
+        - $ref: '#/components/schemas/PlanDto'
+      required:
+        - name
+        - productId
+        - allocationType
+        - delayPlanStartBy
+        - minDaysBetweenOrders
+        - chargeOnly
+        - status
+        - productErpId
+        - channelLocaleErpId
+    PlanUpdateDto:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        productErpId:
+          type: string
+        channelLocaleErpId:
+          type: string
+      allOf:
+        - $ref: '#/components/schemas/PlanDto'
+      required:
+        - name
+        - productId
+        - allocationType
+        - delayPlanStartBy
+        - minDaysBetweenOrders
+        - chargeOnly
+        - status
+        - productErpId
+        - channelLocaleErpId
+    PlanDetailDto:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        productName:
+          type: string
+      allOf:
+        - $ref: '#/components/schemas/PlanDto'
+    # Allocation Type schemas
+    AllocationTypeDto:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+
+    # Organization schemas
+    OrganizationsDto:
+      type: object
+      properties:
+        data:
+          type: array
+          default: [ ]
+          items:
+            $ref: '#/components/schemas/OrganizationViewDto'
+        total:
+          type: integer
+          format: int64
+          default: 0
+    OrganizationDto:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+        status:
+          $ref: '#/components/schemas/StatusDto'
+    OrganizationViewDto:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            erpId:
+              type: string
+              minLength: 1
+              maxLength: 32
+        - $ref: '#/components/schemas/OrganizationDto'
+    OrganizationCreateDto:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            erpId:
+              type: string
+              minLength: 1
+              maxLength: 32
+        - $ref: '#/components/schemas/OrganizationDto'
+      required:
+        - erpId
+        - name
+        - status
+    OrganizationUpdateDto:
+      allOf:
+        - $ref: '#/components/schemas/OrganizationDto'
+      required:
+        - name
+        - status
+    OrganizationDetailDto:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            erpId:
+              type: string
+              minLength: 1
+              maxLength: 32
+        - $ref: '#/components/schemas/OrganizationDto'
+        - $ref: '#/components/schemas/AuditDto'
+
+    # Cancellation Policy schemas
+    CancellationPoliciesDto:
+      type: object
+      properties:
+        cancellationPolicies:
+          type: array
+          default: [ ]
+          items:
+            $ref: '#/components/schemas/CancellationPolicyViewDto'
+        total:
+          type: integer
+          format: int64
+          default: 0
+    CancellationPolicyViewDto:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        status:
+          $ref: '#/components/schemas/StatusDto'
+    CancellationPolicyDto:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 128
+          minLength: 1
+        description:
+          type: string
+        isCancelOnAccount:
+          type: boolean
+        isCancelAutoRenew:
+          type: boolean
+        daysCancelBeforeTriggerDate:
+          type: integer
+          minimum: 0
+        status:
+          $ref: '#/components/schemas/StatusDto'
+    CancellationPolicyCreateDto:
+      allOf:
+        - $ref: '#/components/schemas/CancellationPolicyDto'
+      required:
+        - name
+        - description
+        - isCancelOnAccount
+        - isCancelAutoRenew
+        - daysCancelBeforeTriggerDate
+        - status
+    CancellationPolicyUpdateDto:
+      allOf:
+        - $ref: '#/components/schemas/CancellationPolicyDto'
+      required:
+        - name
+        - description
+        - isCancelOnAccount
+        - isCancelAutoRenew
+        - daysCancelBeforeTriggerDate
+        - status
+    CancellationPolicyDetailDto:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+        - $ref: '#/components/schemas/CancellationPolicyDto'
+        - $ref: '#/components/schemas/AuditDto'
+
+    # Subscription Cancellation schemas
+    SubscriptionCancellationFilterDto:
+      type: object
+      properties:
+        subscriptionId:
+          type: string
+          format: uuid
+        status:
+          $ref: '#/components/schemas/StatusDto'
+        cancelStartDateFrom:
+          type: string
+          format: yyyy-MM-dd
+        cancelStartDateTo:
+          type: string
+          format: yyyy-MM-dd
+        createdDateFrom:
+          type: string
+          format: yyyy-MM-dd
+        createdDateTo:
+          type: string
+          format: yyyy-MM-dd
+    SubscriptionCancellationDto:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        source:
+          $ref: '#/components/schemas/SourceDto'
+        subscriptionId:
+          type: string
+          format: uuid
+        cancelCreatedDate:
+          type: string
+          format: date
+        forceOverride:
+          type: boolean
+        cancelStartDate:
+          type: string
+          format: date
+        cancellationType:
+          $ref: '#/components/schemas/CancellationTypeDto'
+        status:
+          $ref: '#/components/schemas/StatusDto'
+      required:
+        - source
+        - subscriptionId
+        - cancelCreatedDate
+        - cancelStartDate
+        - forceOverride
+    SubscriptionCancellationDetailDto:
+      allOf:
+        - $ref: '#/components/schemas/SubscriptionCancellationDto'
+        - $ref: '#/components/schemas/AuditDto'
+    SubscriptionCancellationViewDto:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        subscriptionId:
+          type: string
+          format: uuid
+        cancelStartDate:
+          type: string
+          format: yyyy-MM-dd
+          pattern: "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])"
+        createdBy:
+          type: integer
+          format: int64
+        createdWhen:
+          type: string
+          format: yyyy-MM-dd HH:mm:ss
+        status:
+          $ref: '#/components/schemas/StatusDto'
+    SubscriptionCancellationsDto:
+      type: object
+      properties:
+        data:
+          type: array
+          default: [ ]
+          items:
+            $ref: '#/components/schemas/SubscriptionCancellationViewDto'
+        total:
+          type: integer
+          format: int64
+          default: 0
+
+    # Skip policy schemas
+    SkipPolicyDetailDto:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        canSkipOnAccount:
+          type: boolean
+        skipResetOnAutoRenew:
+          type: boolean
+        daysSkipBeforeTriggerDate:
+          type: integer
+          format: int32
+          minimum: 0
+          exclusiveMinimum: false
+        maxSkips:
+          type: integer
+          format: int32
+          minimum: 0
+          exclusiveMinimum: true
+        maxConsecutiveSkips:
+          type: integer
+          format: int32
+          minimum: 0
+          exclusiveMinimum: true
+        status:
+          $ref: '#/components/schemas/StatusDto'
+        createdBy:
+          type: integer
+          format: int64
+        createdWhen:
+          type: string
+          pattern: "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) ([0-9]{2}):([0-9]{2}):([0-9]{2})"
+        modifiedBy:
+          type: integer
+          format: int64
+        modifiedWhen:
+          type: string
+          pattern: "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) ([0-9]{2}):([0-9]{2}):([0-9]{2})"
+      required:
+        - name
+        - description
+        - canSkipOnAccount
+        - daysSkipBeforeTriggerDate
+        - maxSkips
+        - maxConsecutiveSkips
+        - status
+    SkipPolicyCreateDto:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        canSkipOnAccount:
+          type: boolean
+        skipResetOnAutoRenew:
+          type: boolean
+        daysSkipBeforeTriggerDate:
+          type: integer
+          format: int32
+          minimum: 0
+        maxSkips:
+          type: integer
+          format: int32
+          minimum: 1
+        maxConsecutiveSkips:
+          type: integer
+          format: int32
+          minimum: 1
+        status:
+          $ref: '#/components/schemas/StatusDto'
+      required:
+        - name
+        - description
+        - canSkipOnAccount
+        - daysSkipBeforeTriggerDate
+        - maxSkips
+        - maxConsecutiveSkips
+        - status
+    SkipPoliciesDto:
+      type: object
+      properties:
+        data:
+          type: array
+          default: [ ]
+          items:
+            $ref: '#/components/schemas/SkipPolicyViewDto'
+        total:
+          type: integer
+          format: int64
+          default: 0
+    SkipPolicyViewDto:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        status:
+          $ref: '#/components/schemas/StatusDto'
+
+    # Site schemas
+    SiteViewDto:
+      allOf:
+        - $ref: '#/components/schemas/SiteDto'
+      type: object
+    SitesDto:
+      type: object
+      properties:
+        data:
+          type: array
+          default: [ ]
+          items:
+            $ref: '#/components/schemas/SiteViewDto'
+        total:
+          type: integer
+          format: int64
+          default: 0
+    SiteDto:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        organizationErpId:
+          type: string
+        organizationName:
+          type: string
+        erpId:
+          type: string
+        name:
+          type: string
+        status:
+          $ref: '#/components/schemas/StatusDto'
+
+    SiteDetailDto:
+      allOf:
+        - $ref: '#/components/schemas/AuditDto'
+        - $ref: '#/components/schemas/SiteDto'
+      type: object
+
+    # Channel locale schemas
+    ChannelLocaleDto:
+      type: object
+      properties:
+        erpId:
+          type: string
+        locale:
+          type: string
+        name:
+          type: string
+        status:
+          $ref: '#/components/schemas/StatusDto'
+    ChannelLocalesDto:
+      type: object
+      properties:
+        data:
+          type: array
+          default: [ ]
+          items:
+            $ref: '#/components/schemas/ChannelLocaleViewDto'
+        total:
+          type: integer
+          format: int64
+          default: 0
+    ChannelLocaleViewDto:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+        - $ref: '#/components/schemas/ChannelLocaleDto'
+    ChannelLocaleDetailDto:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            channelId:
+              type: string
+              format: uuid
+            channelName:
+              type: string
+        - $ref: '#/components/schemas/ChannelLocaleDto'
+        - $ref: '#/components/schemas/AuditDto'
+
+    # Product schemas
+    ProductFilterDto:
+      type: object
+      properties:
+        organizationId:
+          type: string
+          format: uuid
+        siteId:
+          type: string
+          format: uuid
+        channelId:
+          type: string
+          format: uuid
+        channelLocaleId:
+          type: string
+          format: uuid
+        status:
+          $ref: '#/components/schemas/StatusDto'
+    ProductDto:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        erpId:
+          type: string
+          minLength: 1
+          maxLength: 32
+        status:
+          $ref: '#/components/schemas/StatusDto'
+    ProductViewDto:
+      type: object
+      properties:
+        organizationName:
+          type: string
+        siteName:
+          type: string
+        channelName:
+          type: string
+        channelLocaleName:
+          type: string
+      allOf:
+        - $ref: '#/components/schemas/ProductDto'
+    ProductsDto:
+      type: object
+      properties:
+        data:
+          type: array
+          default: [ ]
+          items:
+            $ref: '#/components/schemas/ProductViewDto'
+        total:
+          type: integer
+          format: int64
+          default: 0
+
+    ProductDetailDto:
+      type: object
+      properties:
+        channelLocaleErpId:
+          type: string
+          minLength: 1
+          maxLength: 32
+        channelLocaleName:
+          type: string
+      allOf:
+        - $ref: '#/components/schemas/ProductDto'
+        - $ref: '#/components/schemas/AuditDto'
+    ProductCreateDto:
+      type: object
+      properties:
+        channelLocaleErpId:
+          type: string
+          minLength: 1
+          maxLength: 32
+        productErpId:
+          type: string
+          minLength: 1
+          maxLength: 32
+        name:
+          type: string
+          minLength: 1
+          maxLength: 128
+        status:
+          $ref: '#/components/schemas/StatusDto'
+      required:
+        - channelLocaleErpId
+        - productErpId
+        - status
+    ProductUpdateDto:
+      type: object
+      properties:
+        channelLocaleErpId:
+          type: string
+          minLength: 1
+          maxLength: 32
+        name:
+          type: string
+          minLength: 1
+          maxLength: 32
+        status:
+          $ref: '#/components/schemas/StatusDto'
+      required:
+        - channelLocaleErpId
+        - name
+        - status
+    # Plan access schemas
+    PlanAccessDto:
+      type: object
+      properties:
+        fromDate:
+          type: string
+          format: date
+        untilDate:
+          type: string
+          format: date
+        planId:
+          type: string
+          format: uuid
+        status:
+          $ref: '#/components/schemas/StatusDto'
+    PlanAccessUpdateDto:
+      allOf:
+        - $ref: '#/components/schemas/PlanAccessDto'
+      required:
+        - fromDate
+        - untilDate
+        - status
+        - planId
+    PlanAccessCreateDto:
+      allOf:
+        - $ref: '#/components/schemas/PlanAccessDto'
+      required:
+        - fromDate
+        - untilDate
+        - status
+        - planId
+    PlanAccessesDto:
+      type: object
+      properties:
+        data:
+          type: array
+          default: [ ]
+          items:
+            $ref: '#/components/schemas/PlanAccessViewDto'
+        total:
+          type: integer
+          format: int64
+          default: 0
+    PlanAccessViewDto:
+      allOf:
+        - $ref: '#/components/schemas/PlanAccessDto'
+    PlanAccessDetailDto:
+      allOf:
+        - $ref: '#/components/schemas/PlanAccessDto'
+        - $ref: '#/components/schemas/AuditDto'
+
+  #Plan Frequencies schemas
+    PlanFrequencyDto:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 128
+          minLength: 1
+        description:
+          nullable: true
+          type: string
+          minLength: 1
+        planId:
+          type: string
+          format: uuid
+        frequencyType:
+          $ref: '#/components/schemas/FrequencyTypeDto'
+        frequencyNumber:
+          type: integer
+          format: int64
+          minimum: 1
+        numberOfIterations:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 12
+        initialDiscount:
+          type: number
+          format: double
+        recurringDiscount:
+          type: number
+          format: double
+        isDiscountAgainstListPrice:
+          type: boolean
+        isPriceUpdateOnRenewal:
+          type: boolean
+        shippingInstructions:
+          $ref: '#/components/schemas/ShippingInstructionDto'
+        paymentTime:
+          $ref: '#/components/schemas/PaymentTimeDto'
+        autoRenewal:
+          type: boolean
+        cancellationPolicyId:
+          type: string
+          format: uuid
+        skipPolicyId:
+          type: string
+          format: uuid
+        status:
+          $ref: '#/components/schemas/StatusDto'
+    PlanFrequencyViewDto:
+      allOf:
+        - $ref: '#/components/schemas/PlanFrequencyDto'
+    PlanFrequencyCreateDto:
+      allOf:
+        - $ref: '#/components/schemas/PlanFrequencyDto'
+        - type: object
+          properties:
+            isRecommended:
+              type: boolean
+      required:
+        - name
+        - frequencyType
+        - frequencyNumber
+        - numberOfIterations
+        - initialDiscount
+        - recurringDiscount
+        - isDiscountAgainstListPrice
+        - autoRenewal
+        - isPriceUpdateOnRenewal
+        - isRecommended
+        - cancellationPolicyId
+        - skipPolicyId
+    PlanFrequencyUpdateDto:
+      allOf:
+        - $ref: '#/components/schemas/PlanFrequencyDto'
+        - type: object
+          properties:
+            id:
+              type: string
+              format: UUID
+            isRecommended:
+              type: boolean
+      required:
+        - name
+        - frequencyType
+        - frequencyNumber
+        - numberOfIterations
+        - initialDiscount
+        - recurringDiscount
+        - isDiscountAgainstListPrice
+        - autoRenewal
+        - isPriceUpdateOnRenewal
+        - isRecommended
+        - cancellationPolicyId
+        - skipPolicyId
+    PlanFrequencyDetailDto:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            isRecommended:
+              type: boolean
+        - $ref: '#/components/schemas/PlanFrequencyDto'
+        - $ref: '#/components/schemas/AuditDto'
+    PlanFrequenciesDto:
+      type: object
+      properties:
+        data:
+          type: array
+          default: [ ]
+          items:
+            $ref: '#/components/schemas/PlanFrequencyViewDto'
+        total:
+          type: integer
+          format: int64
+          default: 0
+    # Enum schemas
+    PaymentTimeDto:
+      nullable: true
+      type: string
+      enum: [ ON_ORDER, ON_DISPATCH, UPFRONT ]
+    ShippingInstructionDto:
+      nullable: true
+      type: string
+      enum: [ F, P ]
+    FrequencyTypeDto:
+      type: string
+      enum: [ D, M, W, Y ]
+    StatusDto:
+      type: string
+      enum: [ INACTIVE, ACTIVE ]
+    SourceDto:
+      type: string
+      enum: [ ADMIN_UI, MY_ACCOUNT ]
+    CancellationTypeDto:
+      type: string
+      enum: [ CANCEL_AUTO_RENEW, CANCEL_ON_REQUESTED_DATE, CANCEL_AFTER_NEXT_ORDERLINE ]
+
+    # Common schemas
+    AuditDto:
+      type: object
+      properties:
+        createdBy:
+          type: integer
+        createdWhen:
+          type: string
+        modifiedBy:
+          type: integer
+        modifiedWhen:
+          type: string
+    PageableDto:
+      type: object
+      properties:
+        page:
+          type: integer
+        pageSize:
+          type: integer
+        sorts:
+          $ref: '#/components/schemas/SortDto'
+    SortDto:
+      type: array
+      items:
+        type: string
+    ErrorDto:
+      type: object
+      properties:
+        timeStamp:
+          type: string
+          example: "2022-05-04 08:57:24"
+        path:
+          type: string
+          example: "/subscriptions"
+        status:
+          type: number
+          example: 400
+        error:
+          type: string
+          example: "SUB-ORDN-EXISTED"
+        subErrors:
+          $ref: '#/components/schemas/SubErrorDto'
+    SubErrorDto:
+      type: object
+      properties:
+        field:
+          type: string
+        message:
+          type: string
+          format: id
+    ChannelsDto:
+      type: object
+      properties:
+        data:
+          type: array
+          default: [ ]
+          items:
+            $ref: '#/components/schemas/ChannelViewDto'
+        total:
+          type: integer
+          format: int64
+          default: 0
+    ChannelViewDto:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+        - $ref: '#/components/schemas/ChannelDto'
+    ChannelDto:
+      type: object
+      properties:
+        name:
+          type: string
+        isTaxable:
+          type: boolean
+        status:
+          $ref: '#/components/schemas/StatusDto'
+    ChannelDetailDto:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            siteErpId:
+              type: string
+            siteName:
+              type: string
+        - $ref: '#/components/schemas/ChannelDto'
+        - $ref: '#/components/schemas/AuditDto'
+  responses:
+    BusinessError:
+      description: Business/Validate Error
+      content:
+        application/json:
+          schema:
+            allOf:
+              - type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 400
+              - $ref: '#/components/schemas/ErrorDto'
+    TechnicalError:
+      description: Technical Error
+      content:
+        application/json:
+          schema:
+            allOf:
+              - type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 500
+              - $ref: '#/components/schemas/ErrorDto'
+    NotFoundError:
+      description: Not Found Error
+      content:
+        application/json:
+          schema:
+            allOf:
+              - type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 404
+              - $ref: '#/components/schemas/ErrorDto'
+    CreatedResponse:
+      description: Created, respond ID of created resource
+      content:
+        application/json:
+          schema:
+            type: string
+            format: uuid
+    UpdatedResponse:
+      description: Updated
+    SubscriptionCancellationResponse:
+      description: Subscription Cancellation Response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SubscriptionCancellationDto'

@@ -1,0 +1,12 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        integration:
+          envers:
+            enabled: false
+  flyway:
+    enabled: false
+    

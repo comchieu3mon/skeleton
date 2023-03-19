@@ -1,0 +1,102 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://${COCKROACH_URI}:{PORT:26257}/${COCKROACH_DB}
+    username: ${COCKROACH_USERNAME}
+    password: ${COCKROACH_PASSWORD}
+  jpa:
+    hibernate:
+#      default_schema: <value>
+      naming:
+        strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    properties:
+      hibernate:
+        integration:
+          envers:
+            enabled: true
+        jdbc:
+          batch_size: 10
+        order_updates: true
+        batch_versioned_data: true
+
+
+  flyway:
+    enabled: false
+    locations: classpath:db/migration
+  jms:
+    listener:
+      concurrency: 1
+  artemis:
+    mode: native
+    broker-url: tcp://${BROKER_HOST}:${BROKER_PORT}
+    user: ${BROKER_USERNAME}
+    password: ${BROKER_PASSWORD}
+
+springdoc:
+  swagger-ui:
+    url: /duccao-swagger.yml
+
+logging:
+  file:
+    path: logs
+    max-size: 100KB
+    total-size-cap: 200KB
+    max-history: 7
+  pattern:
+    rolling-file-name: log-%d{yyyy-MM-dd}.%i.log
+  x-correlation-id:
+    excludes: /plans*, /sites/**
+  request:
+    max-payload-length: 10000
+    include:
+      query-string: true
+      payload: true
+      headers: true
+    enable: false
+
+error-message-classpath:
+  business: classpath:/messages/business_messages
+  technical: classpath:/messages/technical_messages
+message-classpath:
+  response: classpath:/messages/response_messages
+
+default-encoding: UTF-8
+
+#Default locale is UK
+default-locale: GB
+default-language: en
+default-timezone: UTC
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
+  metrics:
+    tags:
+      application: subscriptions-service
+  info:
+    git:
+      mode: "full"
+
+#activemq:
+#  queue:
+#    subscription:
+#      order: Queue.subscription.order
+#      cancellation: Queue.subscription.cancellation
+#      orderline: Queue.subscription.orderline
+#      skip:
+#        skip-start: Queue.subscription.skip.skip-start
+#        skip-end: Queue.subscription.skip.skip-end
+
+server:
+  servlet:
+    context-path: /
