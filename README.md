@@ -1,4 +1,4 @@
-# sr-microservice-skeleton
+# duccao-microservice-skeleton
 This repo is to store the project skeleton that includes all the configuration as a template and will be used for generating the microservices
 
 # Generated project characteristics
