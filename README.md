@@ -8,6 +8,7 @@ This repo is to store the project skeleton that includes all the configuration a
 - Code style checker
 - Dockerfile
 - Logging for request/response with WebClient
+- Global expcetion hanlder
 
 ## install skeleton repository
 ```sh
