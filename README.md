@@ -41,13 +41,13 @@ example:
 Confirm the values you have entered are correct:
 ```sh
     [INFO] Generating project in Interactive mode
-    [INFO] Archetype repository not defined. Using the one from [com.nashtech:sr-microservice-skeleton-archetype:0.0.1-SNAPSHOT] found in catalog local
+    [INFO] Archetype repository not defined. Using the one from [com.duccao:duccao-archetype:0.0.1-SNAPSHOT] found in catalog local
     [INFO] Using property: description = This is description project
-    [INFO] Using property: groupId = com.nashtech
-    [INFO] Using property: artifactId = subscription-service
+    [INFO] Using property: groupId = com.duccao
+    [INFO] Using property: artifactId = duccao-archetype
     [INFO] Using property: version = 1.0-SNAPSHOT
-    [INFO] Using property: package = com.nashtech.subscription
-    Define value for property 'mainClassNamePrefix' SubscriptionService: :
+    [INFO] Using property: package = com.duccao.learn
+    Define value for property 'mainClassNamePrefix' LearningApplication: :
     Confirm properties configuration:
     description: This is description project
     groupId: com.duccao
