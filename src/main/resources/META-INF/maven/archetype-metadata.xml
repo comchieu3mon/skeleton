@@ -16,7 +16,13 @@
   </requiredProperties>
   <fileSets>
     <fileSet encoding="UTF-8">
-      <directory>src/config</directory>
+      <directory>checkstyle</directory>
+      <includes>
+        <include>**/*.xml</include>
+      </includes>
+    </fileSet>
+    <fileSet encoding="UTF-8">
+      <directory>config</directory>
       <includes>
         <include>**/*.yaml</include>
       </includes>

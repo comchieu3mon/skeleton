@@ -19,7 +19,7 @@ You can verify the result by visit: C:\Users\{your-account}\.m2\repository\com
 ## Generate a project based on skeleton archetype project
 use this command to generate project
 ```sh
- mvn archetype:generate "-DarchetypeGroupId=com.nashtech" /
+ mvn archetype:generate "-DarchetypeGroupId=com.duccao" /
                            "-DarchetypeArtifactId=duccao-archetype" / 
                            "-DarchetypeVersion=0.0.1-SNAPSHOT" /
                            "-DgroupId=<project_group_id>'" /
@@ -30,14 +30,12 @@ use this command to generate project
 ```
 example:
 ```sh
- mvn archetype:generate "-DarchetypeGroupId=com.nashtech" /
-                           "-DarchetypeArtifactId=duccao-archetype" / 
-                           "-DarchetypeVersion=0.0.1-SNAPSHOT" /
-                           "-DgroupId=com.duccao" /
-                           "-DartifactId=testing-archetype" /
-                           "-Dversion=1.0-SNAPSHOT" /
-                           "-Dpackage=com.duccao.learn" /
-                           "-Ddescription=This is description project"
+mvn archetype:generate                                  \
+    -DarchetypeGroupId=com.duccao                \           
+    -DarchetypeArtifactId=archetype          \             
+    -DarchetypeVersion=0.0.1-SNAPSHOT                \     
+    -DgroupId=com.learn                                \   
+    -DartifactId=learn-archetype
 ```
 Confirm the values you have entered are correct:
 ```sh
